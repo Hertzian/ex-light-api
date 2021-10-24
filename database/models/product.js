@@ -20,9 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
+      tableName: 'products',
       modelName: 'Product'
     }
   )
   return Product
 }
-

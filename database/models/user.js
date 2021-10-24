@@ -13,15 +13,22 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      email: DataTypes.STRING,
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
+      },
       password: DataTypes.STRING,
-      role: DataTypes.STRING
+      role: {
+        type: DataTypes.STRING,
+        defaultValue: 'user'
+      }
     },
     {
       sequelize,
+      tableName: 'users',
       modelName: 'User'
     }
   )
   return User
 }
-

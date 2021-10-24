@@ -34,7 +34,7 @@ exports.update = async (req, res) => {
 //@access    public
 exports.getAll = async (req, res) => {
   try {
-    const products = await Product.find()
+    const products = await Product.findAll()
     return res.json({ products })
   } catch (err) {
     return res.json(err)

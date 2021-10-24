@@ -1,4 +1,5 @@
 require('dotenv').config({ path: './config/config.env' })
+const morgan = require('morgan')
 const express = require('express')
 const { sequelize } = require('./database/models')
 const app = express()

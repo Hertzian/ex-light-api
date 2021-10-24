@@ -1,24 +1,41 @@
-const User = require('../database/models/user')
+const { User } = require('../database/models/index')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 //@route     POST /api/users/login
-//@access    login
-exports.login = async (req, res) => {}
+//@access    public
+exports.login = async (req, res) => {
+  //const { email, password } = req.body
+  try {
+  } catch (err) {
+    return res.json({ err })
+  }
+}
 
 //@route     POST /api/users/register
-//@access    private
+//@access    public
 exports.register = async (req, res) => {
   const { email, password, role } = req.body
+  const newPassword = hashing(password)
+  try {
+    const user = await User.create({ email, password: newPassword, role })
+    return res.json({ user })
+  } catch (err) {
+    return res.json({ err })
+  }
 }
 
 //@route     POST /api/users/
 //@access    private
 exports.create = async (req, res) => {
   const { email, password, role } = req.body
+  const newPassword = hashing(password)
   try {
-    const user = await User.create({ email, password, role })
+    const user = await User.create({ email, password: newPassword, role })
+    //return res.json({ ijole: 'no jala' })
     return res.json({ user })
   } catch (err) {
+    console.log(err)
     return res.json({ err })
   }
 }
@@ -56,9 +73,17 @@ exports.getUser = async (req, res) => {
 //@access    private
 exports.getAll = async (req, res) => {
   try {
-    const users = await User.find()
+    const users = await User.findAll()
+    console.log(users)
     return res.json({ users })
   } catch (err) {
-    res.json({ err })
+    console.log(err)
+    return res.json({ err })
   }
+}
+
+const hashing = (toHash) => {
+  const salt = bcrypt.genSaltSync(10)
+  const hashed = bcrypt.hashSync(toHash, salt)
+  return hashed
 }
